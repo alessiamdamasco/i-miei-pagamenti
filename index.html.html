@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Pagamenti - Personal Dashboard</title>
+    <style>
+        :root {
+            --lavender-light: #f3effa;
+            --lavender-medium: #e1d5f5;
+            --lavender-base: #bca0dc;
+            --lavender-dark: #6c528d;
+            --lavender-deep: #402f56;
+            --white: #ffffff;
+            --shadow: rgba(108, 82, 141, 0.1);
+            --green-edit: #4b8354;
+            --green-light: #eaf5eb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--lavender-light);
+            color: var(--lavender-deep);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Schermata Login */
+        .login-container {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--shadow);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border: 2px solid var(--lavender-medium);
+        }
+
+        .login-container h2 {
+            color: var(--lavender-dark);
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--lavender-dark);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--lavender-medium);
+            border-radius: 10px;
+            outline: none;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: var(--lavender-base);
+            box-shadow: 0 0 8px rgba(188, 160, 220, 0.4);
+        }
+
+        /* Dashboard Principale */
+        .dashboard-container {
+            display: none;
+            width: 100%;
+            max-width: 1000px;
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--shadow);
+            border: 2px solid var(--lavender-medium);
+        }
+
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--lavender-light);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .dash-header h1 {
+            color: var(--lavender-dark);
+            font-size: 26px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-link-accesso {
+            background-color: var(--lavender-medium);
+            color: var(--lavender-dark);
+            border: 2px solid var(--lavender-base);
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-link-accesso:hover {
+            background-color: var(--lavender-base);
+            color: var(--white);
+        }
+
+        .btn-logout {
+            background-color: transparent;
+            color: var(--lavender-dark);
+            border: 2px solid var(--lavender-dark);
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: var(--lavender-dark);
+            color: var(--white);
+        }
+
+        /* Form di inserimento */
+        .form-inserimento {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            background-color: var(--lavender-light);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            align-items: flex-end;
+        }
+
+        .form-inserimento .input-group {
+            margin-bottom: 0;
+        }
+
+        .btn {
+            background-color: var(--lavender-dark);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--lavender-deep);
+        }
+
+        .error-msg {
+            color: #d9534f;
+            font-size: 14px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* Tabella Dati */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--lavender-dark);
+            color: var(--white);
+            padding: 14px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        th:first-child { border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
+        th:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
+
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--lavender-medium);
+            font-size: 15px;
+        }
+
+        tr:hover td {
+            background-color: #fbf9fe;
+        }
+
+        /* Input temporanei durante la modifica */
+        .edit-input {
+            width: 100%;
+            padding: 6px 10px;
+            border: 2px solid var(--lavender-base);
+            border-radius: 6px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        /* Stile riga totali */
+        .riga-totale {
+            background-color: #f7f3ff;
+            font-weight: bold;
+            color: var(--lavender-dark);
+            border-top: 2px solid var(--lavender-base);
+        }
+
+        .riga-totale td {
+            border-bottom: 2px solid var(--lavender-base);
+            font-size: 16px;
+            padding: 16px 14px;
+        }
+
+        /* Pulsanti Azione */
+        .btn-action {
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            margin-right: 5px;
+            transition: all 0.2s;
+        }
+
+        .btn-edit {
+            background-color: var(--lavender-light);
+            color: var(--lavender-dark);
+        }
+
+        .btn-edit:hover {
+            background-color: var(--lavender-medium);
+        }
+
+        .btn-save {
+            background-color: var(--green-light);
+            color: var(--green-edit);
+            border: 1px solid var(--green-edit);
+        }
+
+        .btn-save:hover {
+            background-color: var(--green-edit);
+            color: var(--white);
+        }
+
+        .btn-delete {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+
+        .btn-delete:hover {
+            background-color: #ebccd1;
+        }
+
+        .actions-cell {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container" id="loginBox">
+        <h2>Area Riservata Ally</h2>
+        <div class="input-group">
+            <label for="username">Nome Utente</label>
+            <input type="text" id="username" placeholder="Inserisci il tuo username">
+        </div>
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Inserisci la tua password">
+        </div>
+        <button class="btn" onclick="checkLogin()">Accedi</button>
+        <div class="error-msg" id="errorMsg">Credenziali errate, riprova Amo!</div>
+    </div>
+
+    <div class="dashboard-container" id="dashboardBox">
+        <div class="dash-header">
+            <h1>I Miei Pagamenti 💜</h1>
+            <div class="header-actions">
+                <button class="btn-link-accesso" onclick="generaLinkAccesso()">Genera Link di Accesso 🔗</button>
+                <button class="btn-logout" onclick="logout()">Esci</button>
+            </div>
+        </div>
+
+        <div class="form-inserimento">
+            <div class="input-group">
+                <label for="newProdotto">Prodotto</label>
+                <input type="text" id="newProdotto" placeholder="Es. Netflix">
+            </div>
+            <div class="input-group">
+                <label for="newMensile">Costo Mensile (€)</label>
+                <input type="number" step="0.01" id="newMensile" placeholder="Es. 10.50" oninput="calcolaCostoNuovo('mensile')">
+            </div>
+            <div class="input-group">
+                <label for="newAnnuo">Costo Annuo (€)</label>
+                <input type="number" step="0.01" id="newAnnuo" placeholder="Es. 120.00" oninput="calcolaCostoNuovo('annuo')">
+            </div>
+            <div class="input-group">
+                <label for="newData">Data Scadenza</label>
+                <input type="text" id="newData" placeholder="Es. 15/12/2026">
+            </div>
+            <button class="btn" onclick="aggiungiVoce()" style="height: 46px;">Aggiungi</button>
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>PRODOTTO</th>
+                        <th>COSTO MENSILE</th>
+                        <th>COSTO ANNUO</th>
+                        <th>DATA</th>
+                        <th>AZIONI</th>
+                    </tr>
+                </thead>
+                <tbody id="tabellaCorpo">
+                    </tbody>
+                <tfoot>
+                    <tr class="riga-totale" id="rigaTotale">
+                        </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const USER_CORRETTO = "Ally";
+        const PWD_CORRETTA = "lavanda2026";
+        // Un token di sicurezza semplice per evitare accessi casuali
+        const TOKEN_ACCESSO = "auth_ally_dashboard_2026"; 
+
+        const datiIniziali = [
+            { prodotto: "TIM PEC 2 GB", mensile: 1.00, annuo: 12.00, data: "" },
+            { prodotto: "APPLE ICLOUD 200gb", mensile: 3.00, annuo: 36.00, data: "" },
+            { producto: "SPOTIFY GAMSGO", mensile: 3.67, annuo: 44.00, data: "16/04/2027" },
+            { prodotto: "GOOGLE ONE 100gb", mensile: 1.67, annuo: 20.00, data: "15/03/2027" },
+            { prodotto: "AMAZON PRIME", mensile: 4.17, annuo: 50.00, data: "23/04/2026" },
+            { prodotto: "ASSICURAZIONE AUTO", mensile: 30.00, annuo: 360.00, data: "06/05/2026" },
+            { prodotto: "PRESTITO", mensile: 222.00, annuo: 2664.00, data: "06/2027" },
+            { prodotto: "BOLLO", mensile: 11.67, annuo: 140.00, data: "" },
+            { prodotto: "TAGLIANDO", mensile: 10.00, annuo: 120.00, data: "" },
+            { prodotto: "UNGHIE", mensile: 25.00, annuo: 300.00, data: "" },
+            { prodotto: "BENZINA", mensile: 70.00, annuo: 280.00, data: "" },
+            { prodotto: "SPESA", mensile: 400.00, annuo: 4800.00, data: "" },
+            { prodotto: "shein/amazon/uscite", mensile: 100.00, annuo: 1200.00, data: "" },
+            { prodotto: "CHATGPT", mensile: 1.92, annuo: 23.00, data: "15/04/2027" },
+            { prodotto: "SPID", mensile: 0.50, annuo: 6.00, data: "15/04/2027" }
+        ];
+
+        let rigaInModifica = -1;
+
+        if (!localStorage.getItem('versioneTabella') || !localStorage.getItem('mieiPagamenti') || JSON.parse(localStorage.getItem('mieiPagamenti')).length === 0) {
+            localStorage.setItem('mieiPagamenti', JSON.stringify(datiIniziali));
+            localStorage.setItem('versioneTabella', '2.8'); 
+        }
+
+        // Controllo automatico del link all'avvio della pagina
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('loginToken') === TOKEN_ACCESSO) {
+                // Rimuove il token dall'URL graficamente per pulizia, senza ricaricare la pagina
+                window.history.replaceState({}, document.title, window.location.pathname);
+                effettuaLoginAutomatico();
+            }
+        };
+
+        function effettuaLoginAutomatico() {
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('dashboardBox').style.display = 'block';
+            document.body.style.alignItems = 'flex-start';
+            mostraDati();
+        }
+
+        function checkLogin() {
+            const user = document.getElementById('username').value;
+            const pwd = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (user === USER_CORRETTO && pwd === PWD_CORRETTA) {
+                effettuaLoginAutomatico();
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('loginBox').style.display = 'block';
+            document.getElementById('dashboardBox').style.display = 'none';
+            document.body.style.alignItems = 'center';
+            rigaInModifica = -1;
+        }
+
+        function generaLinkAccesso() {
+            // Genera l'URL base corrente e aggiunge il parametro di login
+            const urlCorrente = window.location.href.split('?')[0];
+            const linkCompleto = `${urlCorrente}?loginToken=${TOKEN_ACCESSO}`;
+            
+            // Copia il link negli appunti dell'utente
+            navigator.clipboard.writeText(linkCompleto).then(() => {
+                alert("Link di accesso rapido copiato negli appunti, Amo! Puoi inviarlo o salvarlo dove preferisci.");
+            }).catch(err => {
+                alert("Ops! Non sono riuscito a copiarlo in automatico. Ecco il tuo link:\n\n" + linkCompleto);
+            });
+        }
+
+        function formattaEuro(valore) {
+            if (valore === null || valore === undefined || isNaN(valore) || valore === 0) return "-";
+            return "€ " + valore.toFixed(2).replace('.', ',');
+        }
+
+        function calcolaCostoNuovo(tipo) {
+            const campoMensile = document.getElementById('newMensile');
+            const campoAnnuo = document.getElementById('newAnnuo');
+            
+            if (tipo === 'mensile') {
+                const val = parseFloat(campoMensile.value) || 0;
+                campoAnnuo.value = val > 0 ? (val * 12).toFixed(2) : '';
+            } else {
+                const val = parseFloat(campoAnnuo.value) || 0;
+                campoMensile.value = val > 0 ? (val / 12).toFixed(2) : '';
+            }
+        }
+
+        function calcolaCostoModifica(tipo) {
+            const campoMensile = document.getElementById('editMensile');
+            const campoAnnuo = document.getElementById('editAnnuo');
+            
+            if (tipo === 'mensile') {
+                const val = parseFloat(campoMensile.value) || 0;
+                campoAnnuo.value = val > 0 ? (val * 12).toFixed(2) : '';
+            } else {
+                const val = parseFloat(campoAnnuo.value) || 0;
+                campoMensile.value = val > 0 ? (val / 12).toFixed(2) : '';
+            }
+        }
+
+        function mostraDati() {
+            const listaDati = JSON.parse(localStorage.getItem('mieiPagamenti')) || [];
+            const corpo = document.getElementById('tabellaCorpo');
+            corpo.innerHTML = '';
+
+            let totaleMensileComplessivo = 0;
+            let totaleAnnuoComplessivo = 0;
+
+            listaDati.forEach((item, index) => {
+                const mensileNum = parseFloat(item.mensile) || 0;
+                const annuoNum = parseFloat(item.annuo) || 0;
+
+                totaleMensileComplessivo += mensileNum;
+                totaleAnnuoComplessivo += annuoNum;
+
+                const row = document.createElement('tr');
+
+                if (index === rigaInModifica) {
+                    row.innerHTML = `
+                        <td><input type="text" id="editProdotto" class="edit-input" value="${item.prodotto}"></td>
+                        <td><input type="number" step="0.01" id="editMensile" class="edit-input" value="${mensileNum || ''}" oninput="calcolaCostoModifica('mensile')"></td>
+                        <td><input type="number" step="0.01" id="editAnnuo" class="edit-input" value="${annuoNum || ''}" oninput="calcolaCostoModifica('annuo')"></td>
+                        <td><input type="text" id="editData" class="edit-input" value="${item.data || ''}"></td>
+                        <td class="actions-cell">
+                            <button class="btn-action btn-save" onclick="salvaModifica(${index})">Salva</button>
+                            <button class="btn-action btn-delete" onclick="annullaModifica()">Annulla</button>
+                        </td>
+                    `;
+                } else {
+                    row.innerHTML = `
+                        <td><strong>${item.prodotto}</strong></td>
+                        <td>${formattaEuro(mensileNum)}</td>
+                        <td>${formattaEuro(annuoNum)}</td>
+                        <td>${item.data || '-'}</td>
+                        <td class="actions-cell">
+                            <button class="btn-action btn-edit" onclick="attivaModifica(${index})">Modifica</button>
+                            <button class="btn-action btn-delete" onclick="eliminaVoce(${index})">Elimina</button>
+                        </td>
+                    `;
+                }
+                corpo.appendChild(row);
+            });
+
+            const rigaTotale = document.getElementById('rigaTotale');
+            rigaTotale.innerHTML = `
+                <td>TOTALE COMPLESSIVO</td>
+                <td>${formattaEuro(totaleMensileComplessivo)}</td>
+                <td>${formattaEuro(totaleAnnuoComplessivo)}</td>
+                <td>-</td>
+                <td>-</td>
+            `;
+        }
+
+        function attivaModifica(index) {
+            rigaInModifica = index;
+            mostraDati();
+        }
+
+        function annullaModifica() {
+            rigaInModifica = -1;
+            mostraDati();
+        }
+
+        function salvaModifica(index) {
+            const nuovoProd = document.getElementById('editProdotto').value.trim();
+            const nuovoMens = document.getElementById('editMensile').value;
+            const nuovoAnn = document.getElementById('editAnnuo').value;
+            const nuovaData = document.getElementById('editData').value.trim();
+
+            if (!nuovoProd) {
+                alert("Il nome del prodotto non può essere vuoto!");
+                return;
+            }
+
+            const listaDati = JSON.parse(localStorage.getItem('mieiPagamenti')) || [];
+            
+            listaDati[index] = {
+                prodotto: nuovoProd,
+                mensile: nuovoMens ? parseFloat(nuovoMens) : null,
+                annuo: nuovoAnn ? parseFloat(nuovoAnn) : null,
+                data: nuovaData
+            };
+
+            localStorage.setItem('mieiPagamenti', JSON.stringify(listaDati));
+            rigaInModifica = -1; 
+            mostraDati();
+        }
+
+        function aggiungiVoce() {
+            const prod = document.getElementById('newProdotto').value.trim();
+            let mens = document.getElementById('newMensile').value;
+            let ann = document.getElementById('newAnnuo').value;
+            const data = document.getElementById('newData').value.trim();
+
+            if (!prod) {
+                alert("Inserisci almeno il nome del prodotto!");
+                return;
+            }
+
+            const listaDati = JSON.parse(localStorage.getItem('mieiPagamenti')) || [];
+            listaDati.push({ 
+                prodotto: prod, 
+                mensile: mens ? parseFloat(mens) : null, 
+                annuo: ann ? parseFloat(ann) : null, 
+                data: data 
+            });
+            
+            localStorage.setItem('mieiPagamenti', JSON.stringify(listaDati));
+
+            document.getElementById('newProdotto').value = '';
+            document.getElementById('newMensile').value = '';
+            document.getElementById('newAnnuo').value = '';
+            document.getElementById('newData').value = '';
+
+            mostraDati();
+        }
+
+        function eliminaVoce(index) {
+            if (confirm("Sei sicura di voler eliminare questa voce?")) {
+                const listaDati = JSON.parse(localStorage.getItem('mieiPagamenti')) || [];
+                listaDati.splice(index, 1);
+                localStorage.setItem('mieiPagamenti', JSON.stringify(listaDati));
+                mostraDati();
+            }
+        }
+    </script>
+</body>
+</html>
