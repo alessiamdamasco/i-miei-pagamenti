@@ -15,6 +15,8 @@
             --shadow: rgba(108, 82, 141, 0.1);
             --green-edit: #4b8354;
             --green-light: #eaf5eb;
+            --card-bg: #fbf9fe;
+            --danger-red: #d9534f;
         }
 
         * {
@@ -84,7 +86,7 @@
         .dashboard-container {
             display: none;
             width: 100%;
-            max-width: 1000px;
+            max-width: 1150px;
             background-color: var(--white);
             padding: 30px;
             border-radius: 20px;
@@ -98,9 +100,7 @@
             align-items: center;
             border-bottom: 2px solid var(--lavender-light);
             padding-bottom: 20px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 15px;
+            margin-bottom: 25px;
         }
 
         .dash-header h1 {
@@ -108,12 +108,12 @@
             font-size: 26px;
         }
 
-        .header-actions {
+        .header-buttons {
             display: flex;
             gap: 10px;
         }
 
-        .btn-link-accesso {
+        .btn-link-gen {
             background-color: var(--lavender-medium);
             color: var(--lavender-dark);
             border: 2px solid var(--lavender-base);
@@ -124,9 +124,9 @@
             transition: all 0.3s ease;
         }
 
-        .btn-link-accesso:hover {
+        .btn-link-gen:hover {
             background-color: var(--lavender-base);
-            color: var(--white);
+            color: var(--lavender-deep);
         }
 
         .btn-logout {
@@ -143,6 +143,131 @@
         .btn-logout:hover {
             background-color: var(--lavender-dark);
             color: var(--white);
+        }
+
+        /* Gestione Budget Stipendio */
+        .budget-setting-zone {
+            background-color: var(--lavender-light);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            max-width: 400px;
+        }
+
+        .budget-setting-zone label {
+            font-weight: bold;
+            color: var(--lavender-dark);
+            font-size: 15px;
+        }
+
+        .budget-setting-zone input {
+            width: 140px;
+            padding: 8px 12px;
+            border: 2px solid var(--lavender-base);
+            border-radius: 8px;
+            outline: none;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        /* Cards Resoconto */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--lavender-medium);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(108, 82, 141, 0.03);
+        }
+
+        .card h3 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--lavender-dark);
+            margin-bottom: 10px;
+        }
+
+        .card .value {
+            font-size: 26px;
+            font-weight: bold;
+            color: var(--lavender-deep);
+            margin-bottom: 5px;
+        }
+
+        .card .subtext {
+            font-size: 12px;
+            color: #8c7b9f;
+        }
+
+        .progress-bar-container {
+            background-color: var(--lavender-medium);
+            border-radius: 10px;
+            height: 8px;
+            width: 100%;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background-color: var(--lavender-dark);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* Sezione Anno Solare */
+        .calendario-titolo {
+            font-size: 18px;
+            color: var(--lavender-dark);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .calendario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        .mese-box {
+            background: var(--card-bg);
+            border: 1px solid var(--lavender-medium);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .mese-box .nome-mese {
+            font-weight: bold;
+            color: var(--lavender-dark);
+            font-size: 14px;
+            border-bottom: 1px solid var(--lavender-medium);
+            padding-bottom: 5px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .mese-box .spesa-mese {
+            font-size: 13px;
+            color: var(--danger-red);
+            margin-bottom: 4px;
+        }
+
+        .mese-box .residuo-mese {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--green-edit);
         }
 
         /* Form di inserimento */
@@ -179,7 +304,7 @@
         }
 
         .error-msg {
-            color: #d9534f;
+            color: var(--danger-red);
             font-size: 14px;
             margin-top: 15px;
             display: none;
@@ -218,7 +343,6 @@
             background-color: #fbf9fe;
         }
 
-        /* Input temporanei durante la modifica */
         .edit-input {
             width: 100%;
             padding: 6px 10px;
@@ -228,7 +352,6 @@
             font-size: 14px;
         }
 
-        /* Stile riga totali */
         .riga-totale {
             background-color: #f7f3ff;
             font-weight: bold;
@@ -242,7 +365,6 @@
             padding: 16px 14px;
         }
 
-        /* Pulsanti Azione */
         .btn-action {
             padding: 6px 12px;
             border-radius: 6px;
@@ -254,42 +376,18 @@
             transition: all 0.2s;
         }
 
-        .btn-edit {
-            background-color: var(--lavender-light);
-            color: var(--lavender-dark);
-        }
-
-        .btn-edit:hover {
-            background-color: var(--lavender-medium);
-        }
-
-        .btn-save {
-            background-color: var(--green-light);
-            color: var(--green-edit);
-            border: 1px solid var(--green-edit);
-        }
-
-        .btn-save:hover {
-            background-color: var(--green-edit);
-            color: var(--white);
-        }
-
-        .btn-delete {
-            background-color: #f2dede;
-            color: #a94442;
-        }
-
-        .btn-delete:hover {
-            background-color: #ebccd1;
-        }
-
-        .actions-cell {
-            white-space: nowrap;
-        }
+        .btn-edit { background-color: var(--lavender-light); color: var(--lavender-dark); }
+        .btn-edit:hover { background-color: var(--lavender-medium); }
+        .btn-save { background-color: var(--green-light); color: var(--green-edit); border: 1px solid var(--green-edit); }
+        .btn-save:hover { background-color: var(--green-edit); color: var(--white); }
+        .btn-delete { background-color: #f2dede; color: #a94442; }
+        .btn-delete:hover { background-color: #ebccd1; }
+        .actions-cell { white-space: nowrap; }
     </style>
 </head>
 <body>
 
+    <!-- Schermata di Login -->
     <div class="login-container" id="loginBox">
         <h2>Area Riservata Ally</h2>
         <div class="input-group">
@@ -304,15 +402,51 @@
         <div class="error-msg" id="errorMsg">Credenziali errate, riprova Amo!</div>
     </div>
 
+    <!-- Dashboard Principale -->
     <div class="dashboard-container" id="dashboardBox">
         <div class="dash-header">
-            <h1>I Miei Pagamenti 💜</h1>
-            <div class="header-actions">
-                <button class="btn-link-accesso" onclick="generaLinkAccesso()">Genera Link di Accesso 🔗</button>
+            <h1>Finanze & Pagamenti 💜</h1>
+            <div class="header-buttons">
+                <button class="btn-link-gen" onclick="generaLinkAccesso()">🔗 Link per Telefono</button>
                 <button class="btn-logout" onclick="logout()">Esci</button>
             </div>
         </div>
 
+        <!-- Inserimento Retribuzione Mensile -->
+        <div class="budget-setting-zone">
+            <label for="stipendioMensile">Retribuzione Mensile:</label>
+            <input type="number" id="stipendioMensile" step="50" placeholder="Es. 1300" oninput="aggiornaBudgetStipendio()">
+        </div>
+
+        <!-- Sezione Riepilogo Cards -->
+        <div class="cards-container">
+            <div class="card">
+                <h3>Resoconto Mensile</h3>
+                <div class="value" id="cardMensile">€ 0,00</div>
+                <div class="subtext">Totale uscite ricorrenti al mese</div>
+            </div>
+            <div class="card">
+                <h3>Resoconto Annuale</h3>
+                <div class="value" id="cardAnnuale">€ 0,00</div>
+                <div class="subtext">Proiezione di spesa complessiva su 12 mesi</div>
+            </div>
+            <div class="card">
+                <h3>Incidenza su Stipendio</h3>
+                <div class="value" id="cardPercentuale">0%</div>
+                <div class="subtext" id="subtextPercentuale">Fette delle entrate mensili impegnate</div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="barraProgresso"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sezione Distribuzione Anno Solare -->
+        <div class="calendario-titolo">Distribuzione del Budget su Anno Solare (Previsionale)</div>
+        <div class="calendario-grid" id="calendarioGrid">
+            <!-- I 12 mesi verranno generati dinamicamente via JS -->
+        </div>
+
+        <!-- Form Inserimento Nuovi Dati -->
         <div class="form-inserimento">
             <div class="input-group">
                 <label for="newProdotto">Prodotto</label>
@@ -327,12 +461,13 @@
                 <input type="number" step="0.01" id="newAnnuo" placeholder="Es. 120.00" oninput="calcolaCostoNuovo('annuo')">
             </div>
             <div class="input-group">
-                <label for="newData">Data Scadenza</label>
-                <input type="text" id="newData" placeholder="Es. 15/12/2026">
+                <label for="newData">Data Scadenza / Mese</label>
+                <input type="text" id="newData" placeholder="Es. 15/12/2026 o 06/2027">
             </div>
             <button class="btn" onclick="aggiungiVoce()" style="height: 46px;">Aggiungi</button>
         </div>
 
+        <!-- Tabella con i dati -->
         <div class="table-responsive">
             <table>
                 <thead>
@@ -340,15 +475,17 @@
                         <th>PRODOTTO</th>
                         <th>COSTO MENSILE</th>
                         <th>COSTO ANNUO</th>
-                        <th>DATA</th>
+                        <th>DATA / SCADENZA</th>
                         <th>AZIONI</th>
                     </tr>
                 </thead>
                 <tbody id="tabellaCorpo">
-                    </tbody>
+                    <!-- Dati gestiti via Javascript -->
+                </tbody>
                 <tfoot>
                     <tr class="riga-totale" id="rigaTotale">
-                        </tr>
+                        <!-- Generato dinamicamente -->
+                    </tr>
                 </tfoot>
             </table>
         </div>
@@ -357,13 +494,12 @@
     <script>
         const USER_CORRETTO = "Ally";
         const PWD_CORRETTA = "lavanda2026";
-        // Un token di sicurezza semplice per evitare accessi casuali
-        const TOKEN_ACCESSO = "auth_ally_dashboard_2026"; 
+        const GITHUB_PAGES_URL = "https://alessiamdamasco.github.io/i-miei-pagamenti/";
 
         const datiIniziali = [
             { prodotto: "TIM PEC 2 GB", mensile: 1.00, annuo: 12.00, data: "" },
             { prodotto: "APPLE ICLOUD 200gb", mensile: 3.00, annuo: 36.00, data: "" },
-            { producto: "SPOTIFY GAMSGO", mensile: 3.67, annuo: 44.00, data: "16/04/2027" },
+            { prodotto: "SPOTIFY GAMSGO", mensile: 3.67, annuo: 44.00, data: "16/04/2027" },
             { prodotto: "GOOGLE ONE 100gb", mensile: 1.67, annuo: 20.00, data: "15/03/2027" },
             { prodotto: "AMAZON PRIME", mensile: 4.17, annuo: 50.00, data: "23/04/2026" },
             { prodotto: "ASSICURAZIONE AUTO", mensile: 30.00, annuo: 360.00, data: "06/05/2026" },
@@ -378,28 +514,14 @@
             { prodotto: "SPID", mensile: 0.50, annuo: 6.00, data: "15/04/2027" }
         ];
 
+        const nomiMesi = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
         let rigaInModifica = -1;
 
-        if (!localStorage.getItem('versioneTabella') || !localStorage.getItem('mieiPagamenti') || JSON.parse(localStorage.getItem('mieiPagamenti')).length === 0) {
+        // FORZATURA E RESOCONTO PULITO: Sovrascrive per sicurezza i dati vecchi e bloccati
+        if (!localStorage.getItem('versioneTabella') || parseFloat(localStorage.getItem('versioneTabella')) < 4.1 || !localStorage.getItem('mieiPagamenti') || JSON.parse(localStorage.getItem('mieiPagamenti')).length === 0) {
             localStorage.setItem('mieiPagamenti', JSON.stringify(datiIniziali));
-            localStorage.setItem('versioneTabella', '2.8'); 
-        }
-
-        // Controllo automatico del link all'avvio della pagina
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('loginToken') === TOKEN_ACCESSO) {
-                // Rimuove il token dall'URL graficamente per pulizia, senza ricaricare la pagina
-                window.history.replaceState({}, document.title, window.location.pathname);
-                effettuaLoginAutomatico();
-            }
-        };
-
-        function effettuaLoginAutomatico() {
-            document.getElementById('loginBox').style.display = 'none';
-            document.getElementById('dashboardBox').style.display = 'block';
-            document.body.style.alignItems = 'flex-start';
-            mostraDati();
+            localStorage.setItem('retribuzioneMensile', '1300');
+            localStorage.setItem('versioneTabella', '4.1'); 
         }
 
         function checkLogin() {
@@ -408,7 +530,11 @@
             const errorMsg = document.getElementById('errorMsg');
 
             if (user === USER_CORRETTO && pwd === PWD_CORRETTA) {
-                effettuaLoginAutomatico();
+                document.getElementById('loginBox').style.display = 'none';
+                document.getElementById('dashboardBox').style.display = 'block';
+                document.body.style.alignItems = 'flex-start';
+                document.getElementById('stipendioMensile').value = localStorage.getItem('retribuzioneMensile') || 1300;
+                mostraDati();
             } else {
                 errorMsg.style.display = 'block';
             }
@@ -423,28 +549,20 @@
             rigaInModifica = -1;
         }
 
-        function generaLinkAccesso() {
-            // Genera l'URL base corrente e aggiunge il parametro di login
-            const urlCorrente = window.location.href.split('?')[0];
-            const linkCompleto = `${urlCorrente}?loginToken=${TOKEN_ACCESSO}`;
-            
-            // Copia il link negli appunti dell'utente
-            navigator.clipboard.writeText(linkCompleto).then(() => {
-                alert("Link di accesso rapido copiato negli appunti, Amo! Puoi inviarlo o salvarlo dove preferisci.");
-            }).catch(err => {
-                alert("Ops! Non sono riuscito a copiarlo in automatico. Ecco il tuo link:\n\n" + linkCompleto);
-            });
-        }
-
         function formattaEuro(valore) {
             if (valore === null || valore === undefined || isNaN(valore) || valore === 0) return "-";
             return "€ " + valore.toFixed(2).replace('.', ',');
         }
 
+        function aggiornaBudgetStipendio() {
+            const val = document.getElementById('stipendioMensile').value;
+            localStorage.setItem('retribuzioneMensile', val || 0);
+            mostraDati();
+        }
+
         function calcolaCostoNuovo(tipo) {
             const campoMensile = document.getElementById('newMensile');
             const campoAnnuo = document.getElementById('newAnnuo');
-            
             if (tipo === 'mensile') {
                 const val = parseFloat(campoMensile.value) || 0;
                 campoAnnuo.value = val > 0 ? (val * 12).toFixed(2) : '';
@@ -457,7 +575,6 @@
         function calcolaCostoModifica(tipo) {
             const campoMensile = document.getElementById('editMensile');
             const campoAnnuo = document.getElementById('editAnnuo');
-            
             if (tipo === 'mensile') {
                 const val = parseFloat(campoMensile.value) || 0;
                 campoAnnuo.value = val > 0 ? (val * 12).toFixed(2) : '';
@@ -467,28 +584,49 @@
             }
         }
 
+        function estraiMeseDaData(dataStr) {
+            if (!dataStr) return null;
+            const parti = dataStr.split('/');
+            if (parti.length === 3) {
+                return parseInt(parti[1]) - 1;
+            } else if (parti.length === 2) {
+                return parseInt(parti[0]) - 1;
+            }
+            return null;
+        }
+
         function mostraDati() {
             const listaDati = JSON.parse(localStorage.getItem('mieiPagamenti')) || [];
+            const stipendio = parseFloat(localStorage.getItem('retribuzioneMensile')) || 1300;
             const corpo = document.getElementById('tabellaCorpo');
             corpo.innerHTML = '';
 
             let totaleMensileComplessivo = 0;
             let totaleAnnuoComplessivo = 0;
+            let usciteMeseSolare = new Array(12).fill(0);
 
             listaDati.forEach((item, index) => {
-                const mensileNum = parseFloat(item.mensile) || 0;
-                const annuoNum = parseFloat(item.annuo) || 0;
+                const mNum = parseFloat(item.mensile) || 0;
+                const aNum = parseFloat(item.annuo) || 0;
 
-                totaleMensileComplessivo += mensileNum;
-                totaleAnnuoComplessivo += annuoNum;
+                totaleMensileComplessivo += mNum;
+                totaleAnnuoComplessivo += aNum;
+
+                const meseScadenza = estraiMeseDaData(item.data);
+                if (meseScadenza !== null && meseScadenza >= 0 && meseScadenza < 12) {
+                    usciteMeseSolare[meseScadenza] += mNum > 0 ? mNum : aNum;
+                } else {
+                    for (let m = 0; m < 12; m++) {
+                        usciteMeseSolare[m] += mNum;
+                    }
+                }
 
                 const row = document.createElement('tr');
-
                 if (index === rigaInModifica) {
                     row.innerHTML = `
                         <td><input type="text" id="editProdotto" class="edit-input" value="${item.prodotto}"></td>
-                        <td><input type="number" step="0.01" id="editMensile" class="edit-input" value="${mensileNum || ''}" oninput="calcolaCostoModifica('mensile')"></td>
-                        <td><input type="number" step="0.01" id="editAnnuo" class="edit-input" value="${annuoNum || ''}" oninput="calcolaCostoModifica('annuo')"></td>
+                        <td><input type="number" step="0.01" id="editMensile" class="edit-input" value="${mNum || ''}" oninput="calcolaCostoModifica('mensile')"></td>
+                        <td><input type="number" step="0.01" id="editAnnuo" class="edit-input" value="${aNum || ''}" oninput="calcolaCostoModifica('annuo')"></td>
                         <td><input type="text" id="editData" class="edit-input" value="${item.data || ''}"></td>
                         <td class="actions-cell">
                             <button class="btn-action btn-save" onclick="salvaModifica(${index})">Salva</button>
@@ -498,8 +636,8 @@
                 } else {
                     row.innerHTML = `
                         <td><strong>${item.prodotto}</strong></td>
-                        <td>${formattaEuro(mensileNum)}</td>
-                        <td>${formattaEuro(annuoNum)}</td>
+                        <td>${formattaEuro(mNum)}</td>
+                        <td>${formattaEuro(aNum)}</td>
                         <td>${item.data || '-'}</td>
                         <td class="actions-cell">
                             <button class="btn-action btn-edit" onclick="attivaModifica(${index})">Modifica</button>
@@ -518,38 +656,59 @@
                 <td>-</td>
                 <td>-</td>
             `;
+
+            document.getElementById('cardMensile').innerText = formattaEuro(totaleMensileComplessivo);
+            document.getElementById('cardAnnuale').innerText = formattaEuro(totaleAnnuoComplessivo);
+            
+            if (stipendio > 0) {
+                let perc = (totaleMensileComplessivo / stipendio) * 100;
+                document.getElementById('cardPercentuale').innerText = perc.toFixed(1) + "%";
+                document.getElementById('subtextPercentuale').innerText = formattaEuro(stipendio - totaleMensileComplessivo) + " liberi al mese";
+                document.getElementById('barraProgresso').style.width = Math.min(perc, 100) + "%";
+            } else {
+                document.getElementById('cardPercentuale').innerText = "0%";
+                document.getElementById('subtextPercentuale').innerText = "Inserisci la retribuzione";
+                document.getElementById('barraProgresso').style.width = "0%";
+            }
+
+            const calGrid = document.getElementById('calendarioGrid');
+            calGrid.innerHTML = '';
+            for (let m = 0; m < 12; m++) {
+                let spesaMeseCorrente = usciteMeseSolare[m];
+                let residuoMeseCorrente = stipendio > 0 ? (stipendio - spesaMeseCorrente) : 0;
+
+                const meseBox = document.createElement('div');
+                meseBox.className = 'mese-box';
+                meseBox.innerHTML = `
+                    <div class="nome-mese">${nomiMesi[m]}</div>
+                    <div class="spesa-mese">Uscite: ${formattaEuro(spesaMeseCorrente)}</div>
+                    <div class="residuo-mese" style="color: ${residuoMeseCorrente < 0 ? 'var(--danger-red)' : 'var(--green-edit)'}">
+                        Disponibile: ${stipendio > 0 ? formattaEuro(residuoMeseCorrente) : 'N/D'}
+                    </div>
+                `;
+                calGrid.appendChild(meseBox);
+            }
         }
 
-        function attivaModifica(index) {
-            rigaInModifica = index;
-            mostraDati();
-        }
+        function attivaModifica(index) { rigaInModifica = index; mostraDati(); }
+        function annullaModifica() { rigaInModifica = -1; mostraDati(); }
 
-        function annullaModifica() {
-            rigaInModifica = -1;
-            mostraDati();
-        }
-
+        /* Rimossa ogni parolina estranea o blocco invisibile dallo script */
         function salvaModifica(index) {
             const nuovoProd = document.getElementById('editProdotto').value.trim();
             const nuovoMens = document.getElementById('editMensile').value;
             const nuovoAnn = document.getElementById('editAnnuo').value;
             const nuovaData = document.getElementById('editData').value.trim();
 
-            if (!nuovoProd) {
-                alert("Il nome del prodotto non può essere vuoto!");
-                return;
-            }
+            if (!nuovoProd) { alert("Il nome del prodotto non può essere vuoto!"); return; }
 
             const listaDati = JSON.parse(localStorage.getItem('mieiPagamenti')) || [];
-            
             listaDati[index] = {
                 prodotto: nuovoProd,
                 mensile: nuovoMens ? parseFloat(nuovoMens) : null,
                 annuo: nuovoAnn ? parseFloat(nuovoAnn) : null,
                 data: nuovaData
             };
-
             localStorage.setItem('mieiPagamenti', JSON.stringify(listaDati));
             rigaInModifica = -1; 
             mostraDati();
@@ -561,10 +720,7 @@
             let ann = document.getElementById('newAnnuo').value;
             const data = document.getElementById('newData').value.trim();
 
-            if (!prod) {
-                alert("Inserisci almeno il nome del prodotto!");
-                return;
-            }
+            if (!prod) { alert("Inserisci almeno il nome del prodotto!"); return; }
 
             const listaDati = JSON.parse(localStorage.getItem('mieiPagamenti')) || [];
             listaDati.push({ 
@@ -573,14 +729,12 @@
                 annuo: ann ? parseFloat(ann) : null, 
                 data: data 
             });
-            
             localStorage.setItem('mieiPagamenti', JSON.stringify(listaDati));
 
             document.getElementById('newProdotto').value = '';
             document.getElementById('newMensile').value = '';
             document.getElementById('newAnnuo').value = '';
             document.getElementById('newData').value = '';
-
             mostraDati();
         }
 
@@ -591,6 +745,14 @@
                 localStorage.setItem('mieiPagamenti', JSON.stringify(listaDati));
                 mostraDati();
             }
+        }
+
+        function generaLinkAccesso() {
+            navigator.clipboard.writeText(GITHUB_PAGES_URL).then(() => {
+                alert("Link copiato negli appunti!\n\nIncollalo su Safari nel tuo telefono.");
+            }).catch(err => {
+                alert("Ecco il tuo link:\n\n" + GITHUB_PAGES_URL);
+            });
         }
     </script>
 </body>
