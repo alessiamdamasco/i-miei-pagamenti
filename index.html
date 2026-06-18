@@ -443,7 +443,6 @@
 </head>
 <body>
 
-    <!-- Schermata di Login -->
     <div class="login-container" id="loginBox">
         <h2>Area Riservata Ally</h2>
         <div class="input-group">
@@ -458,7 +457,6 @@
         <div class="error-msg" id="errorMsg">Credenziali errate, riprova Amo!</div>
     </div>
 
-    <!-- Dashboard Principale -->
     <div class="dashboard-container" id="dashboardBox">
         <div class="dash-header">
             <h1>Finanze & Pagamenti 💜</h1>
@@ -468,7 +466,6 @@
             </div>
         </div>
 
-        <!-- Barra Controlli Superiore -->
         <div class="top-control-zone">
             <div class="budget-setting-zone">
                 <label for="stipendioMensile">Retribuzione Mensile:</label>
@@ -486,7 +483,6 @@
             </div>
         </div>
 
-        <!-- Sezione Riepilogo Cards -->
         <div class="cards-container">
             <div class="card">
                 <h3>Uscite Medie Mensili</h3>
@@ -508,15 +504,12 @@
             </div>
         </div>
 
-        <!-- Sezione Distribuzione Anno Solare -->
         <div class="calendario-titolo-area">
             <div class="calendario-titolo" id="calendarioTitoloTesto">Distribuzione Reale Cassa su Anno Solare (2026)</div>
         </div>
         <div class="calendario-grid" id="calendarioGrid">
-            <!-- Generato dinamicamente via JS -->
-        </div>
+            </div>
 
-        <!-- Form Inserimento Nuovi Dati -->
         <div class="form-inserimento">
             <div class="input-group">
                 <label for="newProdotto">Prodotto</label>
@@ -545,7 +538,6 @@
             <button class="btn" onclick="aggiungiVoce()" style="height: 46px;">Aggiungi</button>
         </div>
 
-        <!-- TABELLA 1: ABBONAMENTI MENSILI -->
         <div class="sezione-titolo-tabella">🔄 Abbonamenti & Spese Mensili</div>
         <div class="table-responsive">
             <table>
@@ -559,17 +551,14 @@
                     </tr>
                 </thead>
                 <tbody id="tabellaMensiliCorpo">
-                    <!-- Gestito via JS -->
-                </tbody>
+                    </tbody>
                 <tfoot>
                     <tr class="riga-totale" id="totaleMensiliRiga">
-                        <!-- Totale parziale mensili -->
-                    </tr>
+                        </tr>
                 </tfoot>
             </table>
         </div>
 
-        <!-- TABELLA 2: SCADENZE ANNUALI -->
         <div class="sezione-titolo-tabella">📅 Scadenze Annuali Fisse (In Blocco)</div>
         <div class="table-responsive">
             <table>
@@ -583,17 +572,14 @@
                     </tr>
                 </thead>
                 <tbody id="tabellaAnnualiCorpo">
-                    <!-- Gestito via JS -->
-                </tbody>
+                    </tbody>
                 <tfoot>
                     <tr class="riga-totale" id="totaleAnnualiRiga">
-                        <!-- Totale parziale annuali -->
-                    </tr>
+                        </tr>
                 </tfoot>
             </table>
         </div>
 
-        <!-- TABELLA 3: USCITE SINGOLE -->
         <div class="sezione-titolo-tabella">🛍️ Uscite Singole / Spot</div>
         <div class="table-responsive">
             <table>
@@ -606,17 +592,14 @@
                     </tr>
                 </thead>
                 <tbody id="tabellaSingoleCorpo">
-                    <!-- Gestito via JS -->
-                </tbody>
+                    </tbody>
                 <tfoot>
                     <tr class="riga-totale" id="totaleSingoleRiga">
-                        <!-- Totale parziale uscite singole -->
-                    </tr>
+                        </tr>
                 </tfoot>
             </table>
         </div>
 
-        <!-- SEZIONE FISSA IN BASSO: SUPER TOTALI COMPLESSIVI -->
         <div class="super-totale-box">
             <div class="super-totale-item">
                 <h4>Super Totale Mensile Effettivo</h4>
@@ -656,10 +639,12 @@
         const nomiMesi = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
         let rigaInModifica = -1;
 
-        if (!localStorage.getItem('versioneTabella') || parseFloat(localStorage.getItem('versioneTabella')) < 7.1) {
+        // LOGICA DI PERSISTENZA MIGLIORATA: Se i dati ci sono già nel browser, NON sovrascriverli mai più.
+        if (!localStorage.getItem('mieiPagamenti')) {
             localStorage.setItem('mieiPagamenti', JSON.stringify(datiIniziali));
+        }
+        if (!localStorage.getItem('retribuzioneMensile')) {
             localStorage.setItem('retribuzioneMensile', '1300');
-            localStorage.setItem('versioneTabella', '7.1'); 
         }
 
         function checkLogin() {
