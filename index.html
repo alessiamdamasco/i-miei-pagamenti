@@ -146,8 +146,8 @@
             color: var(--white);
         }
 
-        /* Gestione Budget Stipendio e Filtro Anno */
-        .control-zone {
+        /* Barra Controlli Superiore */
+        .top-control-zone {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
@@ -161,16 +161,13 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            max-width: 400px;
-            flex: 1;
-            min-width: 280px;
+            min-width: 320px;
         }
 
         .budget-setting-zone label {
             font-weight: bold;
             color: var(--lavender-dark);
             font-size: 15px;
-            white-space: nowrap;
         }
 
         .budget-setting-zone input, .budget-setting-zone select {
@@ -182,9 +179,6 @@
             font-weight: bold;
             background-color: var(--white);
         }
-
-        .budget-setting-zone input { width: 120px; }
-        .budget-setting-zone select { width: 100px; color: var(--lavender-dark); cursor: pointer; }
 
         /* Cards Resoconto */
         .cards-container {
@@ -239,10 +233,16 @@
         }
 
         /* Sezione Anno Solare */
+        .calendario-titolo-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
         .calendario-titolo {
             font-size: 18px;
             color: var(--lavender-dark);
-            margin-bottom: 15px;
             font-weight: bold;
         }
 
@@ -286,7 +286,7 @@
         /* Form di inserimento */
         .form-inserimento {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 15px;
             background-color: var(--lavender-light);
             padding: 20px;
@@ -316,6 +316,48 @@
             background-color: var(--lavender-deep);
         }
 
+        .sezione-titolo-tabella {
+            font-size: 18px;
+            color: var(--lavender-dark);
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Sezione Super Totale In Basso */
+        .super-totale-box {
+            background-color: var(--lavender-deep);
+            color: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(64, 47, 86, 0.25);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .super-totale-item h4 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--lavender-medium);
+            margin-bottom: 8px;
+        }
+
+        .super-totale-item .super-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
         .error-msg {
             color: var(--danger-red);
             font-size: 14px;
@@ -326,12 +368,13 @@
         /* Tabella Dati */
         .table-responsive {
             overflow-x: auto;
+            margin-bottom: 25px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 5px;
             text-align: left;
         }
 
@@ -409,7 +452,7 @@
         </div>
         <div class="input-group">
             <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Inserisci la tua password">
+            <input type="password" id="password" placeholder="Inserisci la tua password" onkeydown="if(event.key === 'Enter') checkLogin()">
         </div>
         <button class="btn" onclick="checkLogin()">Accedi</button>
         <div class="error-msg" id="errorMsg">Credenziali errate, riprova Amo!</div>
@@ -425,18 +468,20 @@
             </div>
         </div>
 
-        <!-- Barra di Controllo con Stipendio e Filtro Anno -->
-        <div class="control-zone">
+        <!-- Barra Controlli Superiore -->
+        <div class="top-control-zone">
             <div class="budget-setting-zone">
                 <label for="stipendioMensile">Retribuzione Mensile:</label>
                 <input type="number" id="stipendioMensile" step="50" placeholder="Es. 1300" oninput="aggiornaBudgetStipendio()">
             </div>
-            <div class="budget-setting-zone" style="max-width: 250px;">
-                <label for="filtroAnno">Anno Solare:</label>
-                <select id="filtroAnno" onchange="cambiaAnnoFiltro()">
-                    <option value="2026">2026</option>
+            <div class="budget-setting-zone">
+                <label for="annoSelettore">Anno di Analisi:</label>
+                <select id="annoSelettore" onchange="cambiaAnnoSolare()">
+                    <option value="2026" selected>2026</option>
                     <option value="2027">2027</option>
                     <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
                 </select>
             </div>
         </div>
@@ -444,19 +489,19 @@
         <!-- Sezione Riepilogo Cards -->
         <div class="cards-container">
             <div class="card">
-                <h3 id="titoloCardMensile">Resoconto Mensile Medio (2026)</h3>
+                <h3>Uscite Medie Mensili</h3>
                 <div class="value" id="cardMensile">€ 0,00</div>
-                <div class="subtext">Totale uscite ricorrenti e quote mensili</div>
+                <div class="subtext">Impatto medio reale mensile calcolato</div>
             </div>
             <div class="card">
-                <h3 id="titoloCardAnnuale">Resoconto Annuale (2026)</h3>
+                <h3>Resoconto Annuale</h3>
                 <div class="value" id="cardAnnuale">€ 0,00</div>
-                <div class="subtext">Proiezione di spesa complessiva sull'anno</div>
+                <div class="subtext">Spesa totale complessiva per l'anno selezionato</div>
             </div>
             <div class="card">
-                <h3>Incidenza su Stipendio</h3>
+                <h3>Incidenza Budget</h3>
                 <div class="value" id="cardPercentuale">0%</div>
-                <div class="subtext" id="subtextPercentuale">Fette delle entrate mensili impegnate</div>
+                <div class="subtext" id="subtextPercentuale">Fetta di cassa media impegnata</div>
                 <div class="progress-bar-container">
                     <div class="progress-bar" id="barraProgresso"></div>
                 </div>
@@ -464,40 +509,44 @@
         </div>
 
         <!-- Sezione Distribuzione Anno Solare -->
-        <div class="calendario-titolo" id="titoloCalendario">Distribuzione del Budget su Anno Solare (Previsionale)</div>
+        <div class="calendario-titolo-area">
+            <div class="calendario-titolo" id="calendarioTitoloTesto">Distribuzione Reale Cassa su Anno Solare (2026)</div>
+        </div>
         <div class="calendario-grid" id="calendarioGrid">
-            <!-- I 12 mesi verranno generati dinamicamente via JS -->
+            <!-- Generato dinamicamente via JS -->
         </div>
 
         <!-- Form Inserimento Nuovi Dati -->
         <div class="form-inserimento">
             <div class="input-group">
-                <label for="newProdotto">Prodotto / Spesa</label>
-                <input type="text" id="newProdotto" placeholder="Es. BOLLETTA LUCE">
+                <label for="newProdotto">Prodotto</label>
+                <input type="text" id="newProdotto" placeholder="Es. Netflix">
             </div>
             <div class="input-group">
-                <label for="tipoSpesa">Tipo Spesa</label>
-                <select id="tipoSpesa" onchange="gestisciTipoSpesa()">
-                    <option value="ricorrente">Fissa / Ricorrente</option>
-                    <option value="singola">Bolletta / Spesa Singola</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label id="labelMensile" for="newMensile">Costo Mensile (€)</label>
+                <label for="newMensile">Costo Mensile (€)</label>
                 <input type="number" step="0.01" id="newMensile" placeholder="Es. 10.50" oninput="calcolaCostoNuovo('mensile')">
             </div>
             <div class="input-group">
-                <label id="labelAnnuo" for="newAnnuo">Costo Annuo (€)</label>
+                <label for="newAnnuo">Costo Annuo (€)</label>
                 <input type="number" step="0.01" id="newAnnuo" placeholder="Es. 120.00" oninput="calcolaCostoNuovo('annuo')">
             </div>
             <div class="input-group">
-                <label for="newData">Data Scadenza / Mese</label>
-                <input type="text" id="newData" placeholder="Es. 15/06/2026 o 06/2026">
+                <label for="newData">Scadenza (Gg/Mm/Anno)</label>
+                <input type="text" id="newData" placeholder="Es. 15/04/2027">
+            </div>
+            <div class="input-group">
+                <label for="newTipo">Tipo Spesa</label>
+                <select id="newTipo">
+                    <option value="mensile">🔄 Abbonamento Mensile</option>
+                    <option value="annuale">📅 Scadenza Annuale</option>
+                    <option value="singola">🛍️ Uscita Singola / Spot</option>
+                </select>
             </div>
             <button class="btn" onclick="aggiungiVoce()" style="height: 46px;">Aggiungi</button>
         </div>
 
-        <!-- Tabella con i dati -->
+        <!-- TABELLA 1: ABBONAMENTI MENSILI -->
+        <div class="sezione-titolo-tabella">🔄 Abbonamenti & Spese Mensili</div>
         <div class="table-responsive">
             <table>
                 <thead>
@@ -505,20 +554,80 @@
                         <th>PRODOTTO</th>
                         <th>COSTO MENSILE</th>
                         <th>COSTO ANNUO</th>
-                        <th>DATA / SCADENZA</th>
+                        <th>DATA / FINE</th>
                         <th>AZIONI</th>
                     </tr>
                 </thead>
-                <tbody id="tabellaCorpo">
-                    <!-- Dati gestiti via Javascript -->
+                <tbody id="tabellaMensiliCorpo">
+                    <!-- Gestito via JS -->
                 </tbody>
                 <tfoot>
-                    <tr class="riga-totale" id="rigaTotale">
-                        <!-- Generato dinamicamente -->
+                    <tr class="riga-totale" id="totaleMensiliRiga">
+                        <!-- Totale parziale mensili -->
                     </tr>
                 </tfoot>
             </table>
         </div>
+
+        <!-- TABELLA 2: SCADENZE ANNUALI -->
+        <div class="sezione-titolo-tabella">📅 Scadenze Annuali Fisse (In Blocco)</div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>PRODOTTO</th>
+                        <th>COSTO MENSILE (Quota)</th>
+                        <th>COSTO ANNUO (In Blocco)</th>
+                        <th>SCADENZA UFFICIALE</th>
+                        <th>AZIONI</th>
+                    </tr>
+                </thead>
+                <tbody id="tabellaAnnualiCorpo">
+                    <!-- Gestito via JS -->
+                </tbody>
+                <tfoot>
+                    <tr class="riga-totale" id="totaleAnnualiRiga">
+                        <!-- Totale parziale annuali -->
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- TABELLA 3: USCITE SINGOLE -->
+        <div class="sezione-titolo-tabella">🛍️ Uscite Singole / Spot</div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>PRODOTTO</th>
+                        <th>IMPORTO SPESO</th>
+                        <th>DATA USCITA SPECIFICA</th>
+                        <th>AZIONI</th>
+                    </tr>
+                </thead>
+                <tbody id="tabellaSingoleCorpo">
+                    <!-- Gestito via JS -->
+                </tbody>
+                <tfoot>
+                    <tr class="riga-totale" id="totaleSingoleRiga">
+                        <!-- Totale parziale uscite singole -->
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- SEZIONE FISSA IN BASSO: SUPER TOTALI COMPLESSIVI -->
+        <div class="super-totale-box">
+            <div class="super-totale-item">
+                <h4>Super Totale Mensile Effettivo</h4>
+                <div class="super-value" id="superTotaleMensile">€ 0,00</div>
+            </div>
+            <div class="super-totale-item">
+                <h4>Super Totale Annuo</h4>
+                <div class="super-value" id="superTotaleAnnuo">€ 0,00</div>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -526,38 +635,36 @@
         const PWD_CORRETTA = "lavanda2026";
         const GITHUB_PAGES_URL = "https://alessiamdamasco.github.io/i-miei-pagamenti/";
 
-        // Dati allineati esattamente al 100% con il Foglio Google "Pagamenti" su Drive
         const datiIniziali = [
-            { prodotto: "TIM PEC 2 GB", mensile: 1.00, annuo: 12.00, data: "", tipo: "ricorrente" },
-            { prodotto: "APPLE ICLOUD 200gb", mensile: 3.00, annuo: 36.00, data: "", tipo: "ricorrente" },
-            { prodotto: "SPOTIFY GAMSGO", mensile: null, annuo: 44.00, data: "16/04/2027", tipo: "ricorrente" },
-            { prodotto: "GOOGLE ONE 100gb", mensile: null, annuo: 20.00, data: "15/03/2027", tipo: "ricorrente" },
-            { prodotto: "AMAZON PRIME", mensile: null, annuo: 50.00, data: "23/04/2026", tipo: "ricorrente" },
-            { prodotto: "ASSICURAZIONE AUTO", mensile: null, annuo: 360.00, data: "06/05/2026", tipo: "ricorrente" },
-            { prodotto: "PRESTITO", mensile: 222.00, annuo: 2664.00, data: "06/2027", tipo: "ricorrente" },
-            { prodotto: "BOLLO", mensile: null, annuo: 140.00, data: "", tipo: "ricorrente" },
-            { prodotto: "TAGLIANDO", mensile: null, annuo: 120.00, data: "", tipo: "ricorrente" },
-            { prodotto: "UNGHIE", mensile: 25.00, annuo: 300.00, data: "", tipo: "ricorrente" },
-            { prodotto: "BENZINA", mensile: 70.00, annuo: 280.00, data: "", tipo: "ricorrente" },
-            { prodotto: "SPESA", mensile: 400.00, annuo: 4800.00, data: "", tipo: "ricorrente" },
-            { prodotto: "shein/amazon/uscite", mensile: 100.00, annuo: 1200.00, data: "", tipo: "ricorrente" },
-            { prodotto: "CHATGPT", mensile: null, annuo: 23.00, data: "15/04/2027", tipo: "ricorrente" },
-            { prodotto: "SPID", mensile: null, annuo: 6.00, data: "15/04/2027", tipo: "ricorrente" }
+            { prodotto: "TIM PEC 2 GB", mensile: 1.00, annuo: 12.00, data: "", tipo: "mensile" },
+            { prodotto: "APPLE ICLOUD 200gb", mensile: 3.00, annuo: 36.00, data: "", tipo: "mensile" },
+            { prodotto: "SPOTIFY GAMSGO", mensile: 0, annuo: 44.00, data: "16/04/2027", tipo: "annuale" },
+            { prodotto: "GOOGLE ONE 100gb", mensile: 0, annuo: 20.00, data: "15/03/2027", tipo: "annuale" },
+            { prodotto: "AMAZON PRIME", mensile: 0, annuo: 50.00, data: "23/04/2026", tipo: "annuale" },
+            { prodotto: "ASSICURAZIONE AUTO", mensile: 0, annuo: 360.00, data: "06/05/2026", tipo: "annuale" },
+            { prodotto: "PRESTITO", mensile: 221.00, annuo: 2652.00, data: "15/06/2027", tipo: "mensile" },
+            { prodotto: "BOLLO", mensile: 0, annuo: 140.00, data: "01/01/2027", tipo: "annuale" },
+            { prodotto: "TAGLIANDO", mensile: 0, annuo: 120.00, data: "07/07/2026", tipo: "annuale" },
+            { prodotto: "UNGHIE", mensile: 25.00, annuo: 300.00, data: "", tipo: "mensile" },
+            { prodotto: "BENZINA", mensile: 70.00, annuo: 840.00, data: "", tipo: "mensile" },
+            { prodotto: "SPESA", mensile: 400.00, annuo: 4800.00, data: "", tipo: "mensile" },
+            { prodotto: "shein/amazon/uscite", mensile: 100.00, annuo: 1200.00, data: "", tipo: "mensile" },
+            { prodotto: "CHATGPT", mensile: 0, annuo: 23.00, data: "15/04/2027", tipo: "annuale" },
+            { prodotto: "SPID", mensile: 0, annuo: 6.00, data: "15/04/2027", tipo: "annuale" }
         ];
 
         const nomiMesi = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
         let rigaInModifica = -1;
-        let annoSelezionato = "2026";
 
-        if (!localStorage.getItem('versioneTabella') || parseFloat(localStorage.getItem('versioneTabella')) < 4.4 || !localStorage.getItem('mieiPagamenti') || JSON.parse(localStorage.getItem('mieiPagamenti')).length === 0) {
+        if (!localStorage.getItem('versioneTabella') || parseFloat(localStorage.getItem('versioneTabella')) < 7.1) {
             localStorage.setItem('mieiPagamenti', JSON.stringify(datiIniziali));
             localStorage.setItem('retribuzioneMensile', '1300');
-            localStorage.setItem('versioneTabella', '4.4'); 
+            localStorage.setItem('versioneTabella', '7.1'); 
         }
 
         function checkLogin() {
-            const user = document.getElementById('username').value;
-            const pwd = document.getElementById('password').value;
+            const user = document.getElementById('username').value.trim();
+            const pwd = document.getElementById('password').value.trim();
             const errorMsg = document.getElementById('errorMsg');
 
             if (user === USER_CORRETTO && pwd === PWD_CORRETTA) {
@@ -565,7 +672,6 @@
                 document.getElementById('dashboardBox').style.display = 'block';
                 document.body.style.alignItems = 'flex-start';
                 document.getElementById('stipendioMensile').value = localStorage.getItem('retribuzioneMensile') || 1300;
-                document.getElementById('filtroAnno').value = annoSelezionato;
                 mostraDati();
             } else {
                 errorMsg.style.display = 'block';
@@ -592,36 +698,13 @@
             mostraDati();
         }
 
-        function cambiaAnnoFiltro() {
-            annoSelezionato = document.getElementById('filtroAnno').value;
+        function cambiaAnnoSolare() {
+            const annoSelezionato = document.getElementById('annoSelettore').value;
+            document.getElementById('calendarioTitoloTesto').innerText = `Distribuzione Reale Cassa su Anno Solare (${annoSelezionato})`;
             mostraDati();
         }
 
-        function gestisciTipoSpesa() {
-            const tipo = document.getElementById('tipoSpesa').value;
-            const campoMensile = document.getElementById('newMensile');
-            const campoAnnuo = document.getElementById('newAnnuo');
-            const labelMensile = document.getElementById('labelMensile');
-            const labelAnnuo = document.getElementById('labelAnnuo');
-
-            if (tipo === 'singola') {
-                labelMensile.innerText = "Importo Bolletta (€)";
-                labelAnnuo.innerText = "Non richiesto";
-                campoAnnuo.disabled = true;
-                campoAnnuo.value = '';
-                campoMensile.placeholder = "Es. 85.50";
-            } else {
-                labelMensile.innerText = "Costo Mensile (€)";
-                labelAnnuo.innerText = "Costo Annuo (€)";
-                campoAnnuo.disabled = false;
-                campoMensile.placeholder = "Es. 10.50";
-            }
-        }
-
         function calcolaCostoNuovo(tipo) {
-            const tipoSpesa = document.getElementById('tipoSpesa').value;
-            if (tipoSpesa === 'singola') return;
-
             const campoMensile = document.getElementById('newMensile');
             const campoAnnuo = document.getElementById('newAnnuo');
             if (tipo === 'mensile') {
@@ -633,9 +716,7 @@
             }
         }
 
-        function calcolaCostoModifica(tipo, rigaTipo) {
-            if (rigaTipo === 'singola') return;
-
+        function calcolaCostoModifica(tipo) {
             const campoMensile = document.getElementById('editMensile');
             const campoAnnuo = document.getElementById('editAnnuo');
             if (tipo === 'mensile') {
@@ -647,126 +728,156 @@
             }
         }
 
-        function estraiMeseEAnnoDaData(dataStr) {
-            if (!dataStr) return { mese: null, anno: null };
+        function estraiDettagliData(dataStr) {
+            if (!dataStr) return null;
             const parti = dataStr.split('/');
             if (parti.length === 3) {
-                return { mese: parseInt(parti[1]) - 1, anno: parti[2].trim() };
+                return { mese: parseInt(parti[1]) - 1, anno: parseInt(parti[2]) };
             } else if (parti.length === 2) {
-                return { mese: parseInt(parti[0]) - 1, anno: parti[1].trim() };
+                return { mese: parseInt(parti[0]) - 1, anno: parseInt(parti[1]) };
             }
-            return { mese: null, anno: null };
+            return null;
         }
 
         function mostraDati() {
             const listaDati = JSON.parse(localStorage.getItem('mieiPagamenti')) || [];
             const stipendio = parseFloat(localStorage.getItem('retribuzioneMensile')) || 1300;
+            const annoSelezionato = parseInt(document.getElementById('annoSelettore').value) || 2026;
             
-            document.getElementById('titoloCardMensile').innerText = `Resoconto Mensile Medio (${annoSelezionato})`;
-            document.getElementById('titoloCardAnnuale').innerText = `Resoconto Annuale (${annoSelezionato})`;
-            document.getElementById('titoloCalendario').innerText = `Distribuzione del Budget su Anno Solare ${annoSelezionato} (Previsionale)`;
+            const tMensili = document.getElementById('tabellaMensiliCorpo');
+            const tAnnuali = document.getElementById('tabellaAnnualiCorpo');
+            const tSingole = document.getElementById('tabellaSingoleCorpo');
+            
+            tMensili.innerHTML = '';
+            tAnnuali.innerHTML = '';
+            tSingole.innerHTML = '';
 
-            const corpo = document.getElementById('tabellaCorpo');
-            corpo.innerHTML = '';
-
-            let totaleMensileComplessivo = 0;
             let totaleAnnuoComplessivo = 0;
+
+            let subTotMensileM = 0, subTotAnnuoM = 0;
+            let subTotMensileA = 0, subTotAnnuoA = 0;
+            let subTotSingole = 0;
+
             let usciteMeseSolare = new Array(12).fill(0);
 
             listaDati.forEach((item, index) => {
-                let mNum = parseFloat(item.mensile);
-                let aNum = parseFloat(item.annuo);
-                const isSingola = item.tipo === 'singola';
-
-                // Se manca il mensile ma c'è l'annuo (e non è una spesa singola), calcoliamo la quota mensile fittizia per i resoconti
-                if (isNaN(mNum) || mNum === null) {
-                    mNum = !isNaN(aNum) && aNum !== null && !isSingola ? (aNum / 12) : 0;
-                }
-                if (isNaN(aNum) || aNum === null) {
-                    aNum = !isNaN(mNum) && mNum !== null ? (mNum * 12) : 0;
+                if (!item.tipo) {
+                    item.tipo = (parseFloat(item.mensile) > 0) ? "mensile" : "annuale";
                 }
 
-                const infoData = estraiMeseEAnnoDaData(item.data);
-                let appartieneAllAnno = false;
-                
-                if (!infoData.anno || infoData.anno === annoSelezionato) {
-                    appartieneAllAnno = true;
-                }
+                const mNum = parseFloat(item.mensile) || 0;
+                const aNum = parseFloat(item.annuo) || 0;
+                const dettagliData = estraiDettagliData(item.data);
 
-                if (appartieneAllAnno) {
-                    if (isSingola) {
-                        totaleAnnuoComplessivo += mNum;
-                    } else {
-                        totaleMensileComplessivo += mNum;
-                        totaleAnnuoComplessivo += aNum;
+                if (item.tipo === 'mensile') {
+                    let attivoInQuestoAnno = true;
+                    if (dettagliData !== null && annoSelezionato > dettagliData.anno) {
+                        attivoInQuestoAnno = false;
                     }
 
-                    if (infoData.mese !== null && infoData.mese >= 0 && infoData.mese < 12) {
-                        // Spesa fissa con scadenza precisa (va solo in quel mese o mese d'anno corrente)
-                        if (isSingola) {
-                            usciteMeseSolare[infoData.mese] += mNum;
-                        } else {
-                            // Se è ricorrente annuale ad esempio un'assicurazione (paga una volta sola nell'anno)
-                            usciteMeseSolare[infoData.mese] += item.mensile === null ? aNum : mNum;
+                    if (attivoInQuestoAnno) {
+                        subTotMensileM += mNum;
+                        let mesiAttivi = 12;
+                        if (dettagliData !== null && annoSelezionato === dettagliData.anno) {
+                            mesiAttivi = dettagliData.mese + 1;
                         }
-                    } else {
-                        if (!isSingola) {
-                            for (let m = 0; m < 12; m++) {
+                        subTotAnnuoM += (mNum * mesiAttivi);
+                        totaleAnnuoComplessivo += (mNum * mesiAttivi);
+
+                        for (let m = 0; m < 12; m++) {
+                            if (dettagliData === null || annoSelezionato < dettagliData.anno || (annoSelezionato === dettagliData.anno && m <= dettagliData.mese)) {
                                 usciteMeseSolare[m] += mNum;
                             }
                         }
                     }
+                } else if (item.tipo === 'annuale') {
+                    subTotMensileA += (aNum / 12);
+                    subTotAnnuoA += aNum;
+                    totaleAnnuoComplessivo += aNum;
 
-                    const row = document.createElement('tr');
-                    if (index === rigaInModifica) {
+                    if (dettagliData !== null && annoSelezionato === dettagliData.anno) {
+                        usciteMeseSolare[dettagliData.mese] += aNum;
+                    }
+                } else if (item.tipo === 'singola') {
+                    if (dettagliData !== null && annoSelezionato === dettagliData.anno) {
+                        subTotSingole += aNum;
+                        totaleAnnuoComplessivo += aNum;
+                        usciteMeseSolare[dettagliData.mese] += aNum;
+                    }
+                }
+
+                const row = document.createElement('tr');
+                if (index === rigaInModifica) {
+                    row.innerHTML = `
+                        <td><input type="text" id="editProdotto" class="edit-input" value="${item.prodotto}"></td>
+                        ${item.tipo !== 'singola' ? `
+                            <td><input type="number" step="0.01" id="editMensile" class="edit-input" value="${mNum || ''}" oninput="calcolaCostoModifica('mensile')"></td>
+                            <td><input type="number" step="0.01" id="editAnnuo" class="edit-input" value="${aNum || ''}" oninput="calcolaCostoModifica('annuo')"></td>
+                        ` : `
+                            <td colspan="2"><input type="number" step="0.01" id="editAnnuo" class="edit-input" value="${aNum || ''}" placeholder="Importo Speso"></td>
+                        `}
+                        <td><input type="text" id="editData" class="edit-input" value="${item.data || ''}" placeholder="Gg/Mm/Anno"></td>
+                        <td class="actions-cell">
+                            <button class="btn-action btn-save" onclick="salvaModifica(${index})">Salva</button>
+                            <button class="btn-action btn-delete" onclick="annullaModifica()">Annulla</button>
+                        </td>
+                    `;
+                } else {
+                    if (item.tipo === 'singola') {
                         row.innerHTML = `
-                            <td><input type="text" id="editProdotto" class="edit-input" value="${item.prodotto}"></td>
-                            <td><input type="number" step="0.01" id="editMensile" class="edit-input" value="${item.mensile || ''}" oninput="calcolaCostoModifica('mensile', '${item.tipo}')"></td>
-                            <td><input type="number" step="0.01" id="editAnnuo" class="edit-input" value="${isSingola ? '' : item.annuo || ''}" ${isSingola ? 'disabled placeholder="Spesa Singola"' : ''} oninput="calcolaCostoModifica('annuo', '${item.tipo}')"></td>
-                            <td><input type="text" id="editData" class="edit-input" value="${item.data || ''}" placeholder="Es. 15/06/2026"></td>
+                            <td><strong>${item.prodotto}</strong></td>
+                            <td>${formattaEuro(aNum)}</td>
+                            <td>${item.data ? item.data : '<em>Non specificato</em>'}</td>
                             <td class="actions-cell">
-                                <button class="btn-action btn-save" onclick="salvaModifica(${index})">Salva</button>
-                                <button class="btn-action btn-delete" onclick="annullaModifica()">Annulla</button>
+                                <button class="btn-action btn-edit" onclick="attivaModifica(${index})">Modifica</button>
+                                <button class="btn-action btn-delete" onclick="eliminaVoce(${index})">Elimina</button>
                             </td>
                         `;
                     } else {
                         row.innerHTML = `
-                            <td><strong>${item.prodotto} ${isSingola ? '🏷️' : ''}</strong></td>
-                            <td>${item.mensile !== null ? formattaEuro(item.mensile) : (isSingola ? formattaEuro(mNum) + " (Una Tantum)" : formattaEuro(mNum) + " (Quota)")}</td>
+                            <td><strong>${item.prodotto}</strong></td>
+                            <td>${mNum > 0 ? formattaEuro(mNum) : '<em>(' + formattaEuro(aNum / 12) + ')</em>'}</td>
                             <td>${formattaEuro(aNum)}</td>
-                            <td>${item.data || 'Sempre Attivo'}</td>
+                            <td>${item.data ? item.data : '<em>Sempre Attivo 🔄</em>'}</td>
                             <td class="actions-cell">
                                 <button class="btn-action btn-edit" onclick="attivaModifica(${index})">Modifica</button>
                                 <button class="btn-action btn-delete" onclick="eliminaVoce(${index})">Elimina</button>
                             </td>
                         `;
                     }
-                    corpo.appendChild(row);
+                }
+
+                if (item.tipo === 'mensile') {
+                    if (dettagliData === null || annoSelezionato <= dettagliData.anno) {
+                        tMensili.appendChild(row);
+                    }
+                } else if (item.tipo === 'annuale') {
+                    tAnnuali.appendChild(row);
+                } else if (item.tipo === 'singola') {
+                    if (dettagliData !== null && annoSelezionato === dettagliData.anno) {
+                        tSingole.appendChild(row);
+                    }
                 }
             });
 
-            const rigaTotale = document.getElementById('rigaTotale');
-            rigaTotale.innerHTML = `
-                <td>TOTALE COMPLESSIVO (${annoSelezionato})</td>
-                <td>${formattaEuro(totaleMensileComplessivo)} <small>(Media)</small></td>
-                <td>${formattaEuro(totaleAnnuoComplessivo)}</td>
-                <td>-</td>
-                <td>-</td>
-            `;
+            let totaleMensileReale = totaleAnnuoComplessivo / 12;
 
-            document.getElementById('cardMensile').innerText = formattaEuro(totaleMensileComplessivo);
+            document.getElementById('totaleMensiliRiga').innerHTML = `<td>PARZIALE MENSILI</td><td>${formattaEuro(subTotMensileM)}</td><td>${formattaEuro(subTotAnnuoM)}</td><td>-</td><td>-</td>`;
+            document.getElementById('totaleAnnualiRiga').innerHTML = `<td>PARZIALE ANNUALI</td><td>${formattaEuro(subTotMensileA)}</td><td>${formattaEuro(subTotAnnuoA)}</td><td>-</td><td>-</td>`;
+            document.getElementById('totaleSingoleRiga').innerHTML = `<td>TOTALE SPOT STAGIONALE</td><td>${formattaEuro(subTotSingole)}</td><td>-</td><td>-</td>`;
+
+            document.getElementById('cardMensile').innerText = formattaEuro(totaleMensileReale);
             document.getElementById('cardAnnuale').innerText = formattaEuro(totaleAnnuoComplessivo);
             
             if (stipendio > 0) {
-                let perc = (totaleMensileComplessivo / stipendio) * 100;
+                let perc = (totaleMensileReale / stipendio) * 100;
                 document.getElementById('cardPercentuale').innerText = perc.toFixed(1) + "%";
-                document.getElementById('subtextPercentuale').innerText = formattaEuro(stipendio - totaleMensileComplessivo) + " liberi medi al mese";
+                document.getElementById('subtextPercentuale').innerText = formattaEuro(stipendio - totaleMensileReale) + " mediamente liberi";
                 document.getElementById('barraProgresso').style.width = Math.min(perc, 100) + "%";
-            } else {
-                document.getElementById('cardPercentuale').innerText = "0%";
-                document.getElementById('subtextPercentuale').innerText = "Inserisci la retribuzione";
-                document.getElementById('barraProgresso').style.width = "0%";
             }
+
+            document.getElementById('superTotaleMensile').innerText = formattaEuro(totaleMensileReale);
+            document.getElementById('superTotaleAnnuo').innerText = formattaEuro(totaleAnnuoComplessivo);
 
             const calGrid = document.getElementById('calendarioGrid');
             calGrid.innerHTML = '';
@@ -778,7 +889,7 @@
                 meseBox.className = 'mese-box';
                 meseBox.innerHTML = `
                     <div class="nome-mese">${nomiMesi[m]}</div>
-                    <div class="spesa-mese">Uscite: ${formattaEuro(spesaMeseCorrente)}</div>
+                    <div class="spesa-mese" style="color: ${spesaMeseCorrente > 450 ? 'var(--danger-red)' : 'var(--lavender-dark)'}">Uscite: ${formattaEuro(spesaMeseCorrente)}</div>
                     <div class="residuo-mese" style="color: ${residuoMeseCorrente < 0 ? 'var(--danger-red)' : 'var(--green-edit)'}">
                         Disponibile: ${stipendio > 0 ? formattaEuro(residuoMeseCorrente) : 'N/D'}
                     </div>
@@ -792,19 +903,27 @@
 
         function salvaModifica(index) {
             const nuovoProd = document.getElementById('editProdotto').value.trim();
-            const nuovoMens = document.getElementById('editMensile').value;
-            const nuovoAnn = document.getElementById('editAnnuo') ? document.getElementById('editAnnuo').value : null;
             const nuovaData = document.getElementById('editData').value.trim();
+            
+            const listaDati = JSON.parse(localStorage.getItem('mieiPagamenti')) || [];
+            const tipoCorrente = listaDati[index].tipo;
+
+            let mVal = 0;
+            let aVal = 0;
+
+            if (tipoCorrente === 'singola') {
+                aVal = parseFloat(document.getElementById('editAnnuo').value) || 0;
+            } else {
+                mVal = parseFloat(document.getElementById('editMensile').value) || 0;
+                aVal = parseFloat(document.getElementById('editAnnuo').value) || 0;
+            }
 
             if (!nuovoProd) { alert("Il nome del prodotto non può essere vuoto!"); return; }
 
-            const listaDati = JSON.parse(localStorage.getItem('mieiPagamenti')) || [];
-            const tipoCorrente = listaDati[index].tipo || 'ricorrente';
-
             listaDati[index] = {
                 prodotto: nuovoProd,
-                mensile: nuovoMens ? parseFloat(nuovoMens) : null,
-                annuo: tipoCorrente === 'singola' ? (nuovoMens ? parseFloat(nuovoMens) : null) : (nuovoAnn ? parseFloat(nuovoAnn) : null),
+                mensile: mVal,
+                annuo: aVal,
                 data: nuovaData,
                 tipo: tipoCorrente
             };
@@ -815,31 +934,28 @@
 
         function aggiungiVoce() {
             const prod = document.getElementById('newProdotto').value.trim();
-            const tipoS = document.getElementById('tipoSpesa').value;
-            let mens = document.getElementById('newMensile').value;
+            let PatternMens = document.getElementById('newMensile').value;
             let ann = document.getElementById('newAnnuo').value;
-            let data = document.getElementById('newData').value.trim();
+            const data = document.getElementById('newData').value.trim();
+            const tipo = document.getElementById('newTipo').value;
 
-            if (!prod) { alert("Inserisci il nome della spesa o bolletta!"); return; }
-            if (tipoS === 'singola' && !data) { 
-                alert(`Amo, per le bollette singole scrivi il mese e l'anno (es. 06/${annoSelezionato}) così so in quale anno metterla!`); 
-                return; 
-            }
+            if (!prod) { alert("Inserisci almeno il nome del prodotto!"); return; }
 
-            if (data && data.split('/').length === 2 && data.indexOf('20') === -1) {
-                data = data + "/" + annoSelezionato;
-            } else if (data && data.split('/').length === 1 && data.length <= 2) {
-                data = data + "/" + annoSelezionato;
+            let mensileNum = PatternMens ? parseFloat(PatternMens) : 0;
+            let annuoNum = ann ? parseFloat(ann) : 0;
+
+            if (tipo === 'singola' && annuoNum === 0 && mensileNum > 0) {
+                annuoNum = mensileNum;
+                mensileNum = 0;
             }
 
             const listaDati = JSON.parse(localStorage.getItem('mieiPagamenti')) || [];
-            
             listaDati.push({ 
                 prodotto: prod, 
-                mensile: mens ? parseFloat(mens) : null, 
-                annuo: tipoS === 'singola' ? (mens ? parseFloat(mens) : null) : (ann ? parseFloat(ann) : null), 
+                mensile: mensileNum, 
+                annuo: annuoNum, 
                 data: data,
-                tipo: tipoS
+                tipo: tipo
             });
             localStorage.setItem('mieiPagamenti', JSON.stringify(listaDati));
 
@@ -847,9 +963,6 @@
             document.getElementById('newMensile').value = '';
             document.getElementById('newAnnuo').value = '';
             document.getElementById('newData').value = '';
-            document.getElementById('tipoSpesa').value = 'ricorrente';
-            gestisciTipoSpesa();
-            
             mostraDati();
         }
 
